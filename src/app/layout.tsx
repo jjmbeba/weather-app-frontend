@@ -18,10 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/rippleui@1.12.1/dist/css/styles.css"
-      />
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/rippleui@1.12.1/dist/css/styles.css"
+        />
+      </head>
       <body
         className={`${space_grotesk.className} antialiased`}
       >
