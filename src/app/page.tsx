@@ -24,7 +24,7 @@ export default async function Home(props: { searchParams: SearchParams }) {
     return (
       <>
         <main className="w-full py-8 flex *:px-10">
-          <Sidebar data={data} units={units} />
+          <Sidebar data={data} units={units as string} />
           <div className="flex-1 md:pl-1/4 lg:pl-[27%]">
             <Navbar searchedCity={city as string} />
             <Forecast searchedCity={city as string} units={units as string} />
