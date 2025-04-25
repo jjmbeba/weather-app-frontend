@@ -3,20 +3,31 @@ import dayjs from "dayjs"
 import Image from "next/image"
 
 const Forecast = async ({ searchedCity, units }: { searchedCity: string, units: string }) => {
-    const data: WeatherForecastResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/weather/forecast?city=${searchedCity}&units=${units}`).then((res) => res.json())
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/weather/forecast?city=${searchedCity}&units=${units}`)
 
-    return (
-        <div className='mt-10'>
-            <h1 className='heading-1'>
-                3 Day Forecast - {data.city.name}
-            </h1>
-            <div className='flex items-center gap-5'>
-                {data.list.slice(0, 3).map((forecastDay) => (
-                    <ForecastCard key={forecastDay.dt} forecastDay={forecastDay} units={units} />
-                ))}
+        const data: WeatherForecastResponse = await response.json()
+
+        return (
+            <div className='mt-10'>
+                <h1 className='heading-1'>
+                    3 Day Forecast - {data.city.name}
+                </h1>
+                <div className='flex items-center gap-5'>
+                    {data.list.slice(0, 3).map((forecastDay) => (
+                        <ForecastCard key={forecastDay.dt} forecastDay={forecastDay} units={units} />
+                    ))}
+                </div>
             </div>
-        </div>
-    )
+        )
+    } catch (error) {
+        console.error("Failed to fetch weather data:", error);
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <p>Failed to load weather data. Please try again later.</p>
+            </div>
+        );
+    }
 }
 
 const ForecastCard = ({ forecastDay, units }: {
