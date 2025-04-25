@@ -13,7 +13,7 @@ const citySchema = z.object({
 
 const Navbar = () => {
     const [useFahrenheit, setUseFahrenheit] = useState(false)
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<z.infer<typeof citySchema>>({
+    const { register, handleSubmit, formState: { errors } } = useForm<z.infer<typeof citySchema>>({
         resolver: zodResolver(citySchema),
         defaultValues: {
             city: ""

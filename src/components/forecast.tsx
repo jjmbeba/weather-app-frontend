@@ -8,8 +8,8 @@ const Forecast = () => {
                 3 Day Forecast
             </h1>
             <div className='flex items-center gap-5'>
-                {Array.from({ length: 3 }).fill(0).map(() => (
-                    <ForecastCard />
+                {Array.from({ length: 3 }).fill(0).map((_, index) => (
+                    <ForecastCard key={`forecast-${index}`} />
                 ))}
             </div>
             <div className='mt-5 flex items-center gap-5'>
