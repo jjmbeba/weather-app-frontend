@@ -20,7 +20,9 @@ const Sidebar = ({ data }: Props) => {
           <span className='text-lg'>
             {dayjs().format('DD MMM YYYY')}
           </span>
-          <span className='text-sm text-gray-600'>Nairobi</span>
+          <span className='text-sm text-gray-600'>
+            {data.name}
+          </span>
         </div>
       </div>
     </aside>

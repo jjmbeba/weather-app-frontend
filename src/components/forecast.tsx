@@ -2,8 +2,8 @@ import { WeatherForecastItem, WeatherForecastResponse } from "@/types/forecast"
 import dayjs from "dayjs"
 import { CloudSunIcon } from "lucide-react"
 
-const Forecast = async () => {
-    const data: WeatherForecastResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/weather/forecast?city=Nairobi`).then((res) => res.json())
+const Forecast = async ({ searchedCity }: { searchedCity: string }) => {
+    const data: WeatherForecastResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/weather/forecast?city=${searchedCity}`).then((res) => res.json())
 
     return (
         <div className='mt-10'>
@@ -22,7 +22,7 @@ const Forecast = async () => {
 const ForecastCard = ({ forecastDay }: {
     forecastDay: WeatherForecastItem
 }) => {
-    console.log(forecastDay.dt_txt)
+    console.log(forecastDay.weather)
     const { temp_max, temp_min } = forecastDay.main
 
     return (
@@ -31,7 +31,7 @@ const ForecastCard = ({ forecastDay }: {
                 <h2 className="card-header">
                     {dayjs(forecastDay.dt_txt).format('DD MMM')}
                 </h2>
-                <CloudSunIcon className="size-30" />
+                <img src={`https://openweathermap.org/img/wn/${forecastDay.weather[0].icon}@2x.png`} alt={forecastDay.weather[0].main} />
                 <p className="text-content2">
                     {Math.round(temp_min)} - {Math.round(temp_max)} °C
                 </p>

@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -12,6 +13,8 @@ const citySchema = z.object({
 })
 
 const Navbar = () => {
+    const router = useRouter()
+
     const [useFahrenheit, setUseFahrenheit] = useState(false)
     const { register, handleSubmit, formState: { errors } } = useForm<z.infer<typeof citySchema>>({
         resolver: zodResolver(citySchema),
@@ -21,7 +24,7 @@ const Navbar = () => {
     })
 
     const onSubmit = (values: z.infer<typeof citySchema>) => {
-        console.log(values)
+        router.push(`/?city=${values.city}`)
     }
 
     return (
