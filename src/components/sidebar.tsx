@@ -2,7 +2,7 @@ import React from 'react'
 
 const Sidebar = () => {
   return (
-    <aside className='w-[27%] border border-red-500'>Sidebar</aside>
+    <aside className='w-full md:w-1/4 lg:w-[27%]'>Sidebar</aside>
   )
 }
 

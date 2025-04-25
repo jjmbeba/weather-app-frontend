@@ -6,19 +6,19 @@ const Navbar = () => {
     const [useFahrenheit, setUseFahrenheit] = useState(false)
 
     return (
-        <div className='w-full flex items-center justify-between'>
+        <nav className='w-full flex items-center justify-between'>
             <div className='flex items-center gap-3'>
-                <input className="input w-[800px]!" placeholder="Welcome!" />
+                <input className="input w-full md:max-w-[600px]" placeholder="Enter city" />
                 <button className='btn'>
                     Go
                 </button>
             </div>
             <div className='flex items-center gap-3'>
-                Celcius
-                <input type="checkbox" checked={useFahrenheit} onChange={() => setUseFahrenheit((prev) => !prev)} className="switch" />
+                Celsius
+                <input type="checkbox" checked={useFahrenheit} onChange={() => setUseFahrenheit((prev) => !prev)} className="switch" aria-label='Toggle temperature unit between Celsius and Fahrenheit' />
                 Fahrenheit
             </div>
-        </div>
+        </nav>
     )
 }
 
