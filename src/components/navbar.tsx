@@ -1,7 +1,8 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -11,8 +12,12 @@ const citySchema = z.object({
     })
 })
 
-const Navbar = () => {
+const Navbar = ({ searchedCity }: { searchedCity: string }) => {
+    const router = useRouter()
+
     const [useFahrenheit, setUseFahrenheit] = useState(false)
+    const units = useFahrenheit ? 'imperial' : 'metric'
+
     const { register, handleSubmit, formState: { errors } } = useForm<z.infer<typeof citySchema>>({
         resolver: zodResolver(citySchema),
         defaultValues: {
@@ -20,8 +25,12 @@ const Navbar = () => {
         }
     })
 
+    useEffect(() => {
+        router.push(`/?city=${searchedCity}&units=${units}`)
+    },[units, searchedCity])
+
     const onSubmit = (values: z.infer<typeof citySchema>) => {
-        console.log(values)
+        router.push(`/?city=${values.city}`)
     }
 
     return (
@@ -37,7 +46,9 @@ const Navbar = () => {
             </form>
             <div className='flex items-center gap-3'>
                 Celsius
-                <input type="checkbox" checked={useFahrenheit} onChange={() => setUseFahrenheit((prev) => !prev)} className="switch" aria-label='Toggle temperature unit between Celsius and Fahrenheit' />
+                <input type="checkbox" checked={useFahrenheit} onChange={() => {
+                    setUseFahrenheit((prev) => !prev)
+                }} className="switch" aria-label='Toggle temperature unit between Celsius and Fahrenheit' />
                 Fahrenheit
             </div>
         </nav>
