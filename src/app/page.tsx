@@ -9,9 +9,10 @@ type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 export default async function Home(props: { searchParams: SearchParams }) {
   const searchParams = await props.searchParams
   const city = searchParams.city || 'Nairobi'
+  const units = searchParams.units || 'metric'
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/weather/current?city=${city}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/weather/current?city=${city}&units=${units}`);
 
     if (!response.ok) {
       throw new Error(`Weather API returned ${response.status}`)
@@ -23,10 +24,10 @@ export default async function Home(props: { searchParams: SearchParams }) {
     return (
       <>
         <main className="w-full py-8 flex *:px-10">
-          <Sidebar data={data} />
+          <Sidebar data={data} units={units} />
           <div className="flex-1 md:pl-1/4 lg:pl-[27%]">
-            <Navbar />
-            <Forecast searchedCity={city as string} />
+            <Navbar searchedCity={city as string} />
+            <Forecast searchedCity={city as string} units={units as string} />
             <ExtraInfo humidity={humidity} wind={wind} />
           </div>
         </main>
