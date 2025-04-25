@@ -1,5 +1,3 @@
-import ForecastSkeleton from '@/components/skeletons/forecast';
-import React from 'react';
 
 export default function Loading() {
     return (

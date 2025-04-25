@@ -1,3 +1,4 @@
+import { getForecastsAtNoon } from "@/lib/utils"
 import { WeatherForecastItem, WeatherForecastResponse } from "@/types/forecast"
 import dayjs from "dayjs"
 import Image from "next/image"
@@ -8,13 +9,14 @@ const Forecast = async ({ searchedCity, units }: { searchedCity: string, units: 
 
         const data: WeatherForecastResponse = await response.json()
 
+        const forecasts = getForecastsAtNoon(data.list)
         return (
             <div className='mt-10'>
                 <h1 className='heading-1'>
                     3 Day Forecast - {data.city.name}
                 </h1>
                 <div className='flex items-center gap-5'>
-                    {data.list.slice(0, 3).map((forecastDay) => (
+                    {forecasts.slice(0, 3).map((forecastDay) => (
                         <ForecastCard key={forecastDay.dt} forecastDay={forecastDay} units={units} />
                     ))}
                 </div>
