@@ -1,71 +1,39 @@
-import { CloudSunIcon, CompassIcon } from "lucide-react"
+import { WeatherForecastItem, WeatherForecastResponse } from "@/types/forecast"
+import dayjs from "dayjs"
+import { CloudSunIcon } from "lucide-react"
 
+const Forecast = async () => {
+    const data: WeatherForecastResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/weather/forecast?city=Nairobi`).then((res) => res.json())
 
-const Forecast = () => {
     return (
         <div className='mt-10'>
             <h1 className='heading-1'>
-                3 Day Forecast
+                3 Day Forecast - {data.city.name}
             </h1>
             <div className='flex items-center gap-5'>
-                {Array.from({ length: 3 }).fill(0).map((_, index) => (
-                    <ForecastCard key={`forecast-${index}`} />
+                {data.list.slice(0, 3).map((forecastDay) => (
+                    <ForecastCard key={forecastDay.dt} forecastDay={forecastDay} />
                 ))}
-            </div>
-            <div className='mt-5 flex items-center gap-5'>
-                <WindCard />
-                <HumidityCard />
             </div>
         </div>
     )
 }
 
-const ForecastCard = () => {
+const ForecastCard = ({ forecastDay }: {
+    forecastDay: WeatherForecastItem
+}) => {
+    console.log(forecastDay.dt_txt)
+    const { temp_max, temp_min } = forecastDay.main
+
     return (
         <div className="card">
             <div className="card-body items-center">
                 <h2 className="card-header">
-                    21 May
+                    {dayjs(forecastDay.dt_txt).format('DD MMM')}
                 </h2>
                 <CloudSunIcon className="size-30" />
                 <p className="text-content2">
-                    17-21 °C
-                </p>
-            </div>
-        </div>
-    )
-}
-
-const WindCard = () => {
-    return (
-        <div className="card">
-            <div className="card-body items-center">
-                <h2 className="card-header">
-                    Wind status
-                </h2>
-                <p className="text-3xl font-bold py-5">
-                    3 km/h
-                </p>
-                <p className="text-content2">
-                    <CompassIcon />
-                </p>
-            </div>
-        </div>
-    )
-}
-
-const HumidityCard = () => {
-    return (
-        <div className="card">
-            <div className="card-body items-center">
-                <h2 className="card-header">
-                    Humidity
-                </h2>
-                <p className="text-3xl font-bold py-5">
-                    80 %
-                </p>
-                <p className="text-content2">
-                    <progress className="progress" value="80" max="100"></progress>
+                    {Math.round(temp_min)} - {Math.round(temp_max)} °C
                 </p>
             </div>
         </div>
